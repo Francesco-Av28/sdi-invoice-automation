@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica versione="FPR12" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2">
+  <FatturaElettronicaHeader>
+    <CedentePrestatore><DatiAnagrafici>
+      <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>08888888889</IdCodice></IdFiscaleIVA>
+      <Anagrafica><Denominazione>STUDIO PROFESSIONALE DEMO</Denominazione></Anagrafica>
+    </DatiAnagrafici></CedentePrestatore>
+    <CessionarioCommittente><DatiAnagrafici>
+      <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>01111111118</IdCodice></IdFiscaleIVA>
+      <Anagrafica><Denominazione>ALFA SRL</Denominazione></Anagrafica>
+    </DatiAnagrafici></CessionarioCommittente>
+  </FatturaElettronicaHeader>
+  <FatturaElettronicaBody>
+    <DatiGenerali><DatiGeneraliDocumento>
+      <TipoDocumento>TD06</TipoDocumento><Divisa>EUR</Divisa>
+      <Data>2026-07-15</Data><Numero>DEMO-007</Numero><DatiRitenuta><TipoRitenuta>RT01</TipoRitenuta><ImportoRitenuta>40.00</ImportoRitenuta><AliquotaRitenuta>20.00</AliquotaRitenuta><CausalePagamento>A</CausalePagamento></DatiRitenuta>
+      <ImportoTotaleDocumento>244.00</ImportoTotaleDocumento>
+    </DatiGeneraliDocumento></DatiGenerali>
+    <DatiBeniServizi>
+      <DettaglioLinee><NumeroLinea>1</NumeroLinea><Descrizione>Onorario per consulenza</Descrizione>
+        <PrezzoTotale>200.00</PrezzoTotale><AliquotaIVA>22.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DatiRiepilogo><AliquotaIVA>22.00</AliquotaIVA>
+        <ImponibileImporto>200.00</ImponibileImporto><Imposta>44.00</Imposta>
+        <EsigibilitaIVA>I</EsigibilitaIVA>
+      </DatiRiepilogo>
+    </DatiBeniServizi>
+  </FatturaElettronicaBody>
+</p:FatturaElettronica>

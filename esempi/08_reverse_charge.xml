@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica versione="FPR12" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2">
+  <FatturaElettronicaHeader>
+    <CedentePrestatore><DatiAnagrafici>
+      <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>09999999990</IdCodice></IdFiscaleIVA>
+      <Anagrafica><Denominazione>IMPRESA EDILE DEMO</Denominazione></Anagrafica>
+    </DatiAnagrafici></CedentePrestatore>
+    <CessionarioCommittente><DatiAnagrafici>
+      <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>01111111118</IdCodice></IdFiscaleIVA>
+      <Anagrafica><Denominazione>ALFA SRL</Denominazione></Anagrafica>
+    </DatiAnagrafici></CessionarioCommittente>
+  </FatturaElettronicaHeader>
+  <FatturaElettronicaBody>
+    <DatiGenerali><DatiGeneraliDocumento>
+      <TipoDocumento>TD17</TipoDocumento><Divisa>EUR</Divisa>
+      <Data>2026-07-15</Data><Numero>DEMO-008</Numero>
+      <ImportoTotaleDocumento>610.00</ImportoTotaleDocumento>
+    </DatiGeneraliDocumento></DatiGenerali>
+    <DatiBeniServizi>
+      <DettaglioLinee><NumeroLinea>1</NumeroLinea><Descrizione>Integrazione reverse charge</Descrizione>
+        <PrezzoTotale>500.00</PrezzoTotale><AliquotaIVA>22.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DatiRiepilogo><AliquotaIVA>22.00</AliquotaIVA>
+        <ImponibileImporto>500.00</ImponibileImporto><Imposta>110.00</Imposta>
+        <EsigibilitaIVA>I</EsigibilitaIVA>
+      </DatiRiepilogo>
+    </DatiBeniServizi>
+  </FatturaElettronicaBody>
+</p:FatturaElettronica>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica versione="FPR12" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2">
+  <FatturaElettronicaHeader>
+    <CedentePrestatore><DatiAnagrafici>
+      <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>01313131313</IdCodice></IdFiscaleIVA>
+      <Anagrafica><Denominazione>CONCESSIONARIA DEMO SPA</Denominazione></Anagrafica>
+    </DatiAnagrafici></CedentePrestatore>
+    <CessionarioCommittente><DatiAnagrafici>
+      <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>01111111118</IdCodice></IdFiscaleIVA>
+      <Anagrafica><Denominazione>ALFA SRL</Denominazione></Anagrafica>
+    </DatiAnagrafici></CessionarioCommittente>
+  </FatturaElettronicaHeader>
+  <FatturaElettronicaBody>
+    <DatiGenerali><DatiGeneraliDocumento>
+      <TipoDocumento>TD01</TipoDocumento><Divisa>EUR</Divisa>
+      <Data>2026-07-15</Data><Numero>DEMO-010</Numero>
+      <ImportoTotaleDocumento>21960.00</ImportoTotaleDocumento>
+    </DatiGeneraliDocumento></DatiGenerali>
+    <DatiBeniServizi>
+      <DettaglioLinee><NumeroLinea>1</NumeroLinea><Descrizione>Autovettura nuova telaio ZZZ000 immatricolazione</Descrizione>
+        <PrezzoTotale>18000.00</PrezzoTotale><AliquotaIVA>22.00</AliquotaIVA>
+      </DettaglioLinee>
+      <DatiRiepilogo><AliquotaIVA>22.00</AliquotaIVA>
+        <ImponibileImporto>18000.00</ImponibileImporto><Imposta>3960.00</Imposta>
+        <EsigibilitaIVA>I</EsigibilitaIVA>
+      </DatiRiepilogo>
+    </DatiBeniServizi>
+  </FatturaElettronicaBody>
+</p:FatturaElettronica>

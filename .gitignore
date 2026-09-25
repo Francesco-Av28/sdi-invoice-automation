@@ -1,0 +1,5 @@
+# Generated outputs
+USCITE/
+__pycache__/
+*.exe
+~$*

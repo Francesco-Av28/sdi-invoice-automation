@@ -1,0 +1,2 @@
+openpyxl>=3.1
+asn1crypto>=1.5  # optional: robust unwrapping of signed .p7m invoices
