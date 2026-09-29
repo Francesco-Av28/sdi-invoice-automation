@@ -1,6 +1,6 @@
 # Motore decisionale: dato il contenuto di una fattura XML decide azienda,
-# causale e conti di costo/ricavo usando le regole addestrate nella
-# cartella regole\ (CSV per azienda + regole comuni).
+# causale e conti di costo/ricavo usando le regole in regole\ (CSV modificabili:
+# regole comuni a tutte le aziende + regole e piano dei conti per azienda).
 import csv
 import os
 import re
@@ -117,8 +117,7 @@ class Cliente:
         self.nome = riga["nome"].strip()
         self.piva = riga["piva"].strip()
         self.cf = (riga.get("cf") or "").strip().upper()
-        self.codice_gestionale = riga["codice_gestionale"].strip()
-        self.sede = riga["sede"].strip().lower() or "locale"
+        self.codice_gestionale = (riga.get("codice_gestionale") or "").strip()
         self.cartella_regole = riga["cartella_regole"].strip()
         self.conto_ricavi = riga["conto_ricavi"].strip() or "44-5-1"
         self.regole = None       # caricate pigramente
@@ -213,7 +212,7 @@ def identifica(fattura, per_codice):
 
 
 def classifica_riga(testo, piva_fornitore, nome_fornitore, cliente):
-    """Catena di priorita':
+    """Catena di priorita' (dalla regola piu' specifica alla piu' generica):
     parola chiave > fornitore per P.IVA > fornitore per nome > categoria.
     Ritorna (codice, origine) o (None, motivo_del_dubbio)."""
     cliente.carica()
@@ -256,11 +255,11 @@ def _classifica_veicolo(t, cliente):
         if codice:
             return codice, "veicolo a noleggio"
         return None, "veicolo a noleggio ma nessun conto noleggi nel piano"
-    # acquisto: e' un cespite (4-20-4 autovetture / 4-20-5 autocarri) e in
-    # nel gestionale va registrato col flag beni ammortizzabili manuale -> mai in automatico
+    # acquisto: e' un cespite (4-20-4 autovetture / 4-20-5 autocarri) e va
+    # registrato a mano come bene ammortizzabile -> mai in automatico
     tipo = ("autocarro 4-20-5" if ("autocarr" in t or "furgon" in t or "rimorchi" in t)
             else "autovettura 4-20-4")
-    return None, f"acquisto veicolo: cespite {tipo}, richiede flag BA manuale"
+    return None, f"acquisto veicolo: cespite {tipo}, registrazione manuale come bene ammortizzabile"
 
 
 def decidi(fattura, cliente, verso):

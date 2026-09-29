@@ -1,12 +1,11 @@
-# FATTURE AUTO - motore decisionale di registrazione fatture per il gestionale contabile.
+# FATTURE AUTO - motore decisionale di registrazione fatture elettroniche.
 #
 # Legge le fatture elettroniche XML da una cartella, riconosce da solo
 # l'azienda (dalla P.IVA), il verso (attiva/passiva), il fornitore/cliente
 # e i conti di costo/ricavo con le regole addestrate, poi genera:
-#   - un file di import per azienda (acquisizione esterna del gestionale)
+#   - un file di import per azienda (per il gestionale contabile)
 #   - un report Excel con le fatture pronte e quelle accantonate (dubbi)
-# Le fatture dubbie vengono spostate in USCITE\DUBBI per il giro manuale
-# (registrazione manuale).
+# Le fatture dubbie vengono copiate in USCITE\DUBBI per la registrazione manuale.
 #
 # Uso:  python fatture_auto.py [cartella_xml]
 #       (senza argomenti usa la cartella di config\impostazioni.ini)
@@ -30,7 +29,7 @@ import lettore_xml
 def carica_impostazioni():
     ini = configparser.ConfigParser()
     ini.read(os.path.join(QUI, "config", "impostazioni.ini"), encoding="utf-8")
-    return ini["FATTURE AUTO"]
+    return ini["FATTURE AUTO"] if ini.has_section("FATTURE AUTO") else {}
 
 
 def raccogli(cartella_xml, per_nome):
@@ -67,7 +66,10 @@ def raccogli(cartella_xml, per_nome):
 
 def main():
     imp = carica_impostazioni()
-    cartella_xml = sys.argv[1] if len(sys.argv) > 1 else imp.get("cartella_xml", "")
+    argomenti = [a for a in sys.argv[1:] if not a.startswith("--")]
+    cartella_xml = argomenti[0] if argomenti else (imp.get("cartella_xml", "") or "XML DA REGISTRARE")
+    if not os.path.isabs(cartella_xml):
+        cartella_xml = os.path.join(QUI, cartella_xml)
     if not cartella_xml or not os.path.isdir(cartella_xml):
         print(f"Cartella XML non trovata: '{cartella_xml}'")
         print("Indicala in config\\impostazioni.ini oppure come argomento.")
@@ -131,19 +133,16 @@ def main():
 
     bollo = datetime.now().strftime("%Y%m%d_%H%M")
     for cliente, decisioni in pronte.items():
-        # File separati per la specifica di import: quella passive legge solo passive,
-        # le attive avranno la loro tipologia/specifica dedicata.
+        # file separati per fatture passive e attive
         passive = [d for d in decisioni
                    if d[1]["causale"] in esporta_import.CAUSALI_PASSIVE]
         attive = [d for d in decisioni
                   if d[1]["causale"] not in esporta_import.CAUSALI_PASSIVE]
-        dove = "QUI" if cliente.sede == "locale" else "STUDIO"
         base = (cliente.codice_gestionale or cliente.nome).replace(" ", "_")
         scritti = []
         for verso_file, gruppo in (("PASSIVE", passive), ("ATTIVE", attive)):
-            # scritto sempre: il wizard di import esige entrambi i percorsi.
-            # Se non ci sono fatture scrive una riga "X" (nessuna regola T/D
-            # la riconosce): un file vuoto manda in errore il parser VB6.
+            # scritto sempre (senza fatture contiene solo la riga "X", che nessuna
+            # regola T/D riconosce): l'import trova sempre entrambi i file.
             nome = f"import_{base}_{verso_file}_{bollo}.csv"
             percorso_v = os.path.join(uscite, nome)
             if gruppo:
@@ -152,7 +151,7 @@ def main():
                 with open(percorso_v, "w", newline="") as fv:
                     fv.write("X\r\n")
             scritti.append(f"{nome} ({len(gruppo)})")
-        print(f"  [{dove}] {cliente.nome}: {len(decisioni)} fatture -> "
+        print(f"  {cliente.nome}: {len(decisioni)} fatture -> "
               + "; ".join(scritti))
 
     report = os.path.join(uscite, f"report_{bollo}.xlsx")

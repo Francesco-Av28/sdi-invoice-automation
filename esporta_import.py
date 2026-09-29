@@ -1,10 +1,10 @@
-# Genera i file per l'acquisizione esterna del gestionale contabile
-# (import da file di testo delimitato) e il report dei casi accantonati.
+# Genera il file di import per il gestionale contabile (acquisizione dati da
+# file di testo delimitato) e il report Excel dei casi pronti e accantonati.
 #
 # Formato file di import: testo con delimitatore ';', righe T (testata) e
 # D (dettaglio per aliquota). Il layout delle colonne e' documentato qui
-# sotto e va rispecchiato UNA VOLTA nella "specifica di acquisizione"
-# creata nel gestionale: da li' in poi l'import e' un click.
+# sotto ed e' un ESEMPIO: va rispecchiato una volta nella funzione di import
+# del proprio gestionale (o adattato qui); da li' in poi l'import e' un click.
 #
 # Layout riga T (fatture passive e attive):
 #   T;tipo_doc;data_documento;numero_documento;data_registrazione;causale;
@@ -32,16 +32,15 @@ def _imp(n):
 
 def _codice_iva(riga):
     """Codice IVA 'parlante' nel file: aliquota intera o natura (N1, N2.2...).
-    L'associazione con i codici IVA del gestionale si fa una volta nel wizard."""
+    L'associazione con i codici IVA del gestionale si fa una volta all'import."""
     if riga["natura"]:
         return riga["natura"]
     a = riga["aliquota"]
     return f"{a:g}"
 
 
-# Causali che identificano una fattura passiva: la specifica di import
-# (tipologia "Fatture passive") accetta solo queste; le altre vanno nel
-# file ATTIVE (tipologia "Fatture attive", da parametrizzare a parte).
+# Causali che identificano una fattura passiva: vanno nel file PASSIVE,
+# tutte le altre nel file ATTIVE.
 CAUSALI_PASSIVE = ("FATTURA ACQUISTI", "NOTA CREDITO FORNITORE", "SPLIT PAYMENT")
 
 
@@ -70,8 +69,7 @@ def scrivi_import(percorso, decisioni):
 
 
 def scrivi_report(percorso, registrate, dubbi):
-    """Report Excel: foglio Registrate + foglio Dubbi (da fare a mano).
-    Formato italiano."""
+    """Report Excel: foglio Registrate + foglio Dubbi (da fare a mano). Formato italiano."""
     from openpyxl import Workbook
     from openpyxl.styles import Font
 
